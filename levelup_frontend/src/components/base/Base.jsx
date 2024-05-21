@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export const HomeButton = () => {
     return (
         <Link 
-        to="/years" 
+        to="/" 
         className="leading-6 tracking-wide text-sm font-light">
             <FontAwesomeIcon icon={faHomeLg} />
         </Link>
