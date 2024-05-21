@@ -43,7 +43,7 @@ const TimeLineCard = ({...props}) => {
 
 const PictureSpan = ({img}) => {
     return (
-        <div style={{minWidth: "200px", minHeight: "200px"}} className="flex items-center justify-center w-full min-h-96">
+        <div style={{minWidth: "200px", minHeight: "200px"}} className="flex items-center justify-center w-full min-h-80">
         <img alt="Proof" src={img}  className="object-scale-down h-full drop-shadow-md rounded m-auto" />
         </div>
     );

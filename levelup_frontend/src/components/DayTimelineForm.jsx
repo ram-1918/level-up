@@ -1,22 +1,16 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCancel, faClock, faCross, faMultiply } from "@fortawesome/free-solid-svg-icons";
 import img1 from '../assets/images/part1.png';
 import { useState } from "react";
 import { BaseHoveringCancel } from "./base/Base";
 
 export default function DayTimelineForm({...props}) {
-    return (
-        <div className="p-2 grid grid-cols-1 gap-4 justify-items-center tablet:grid-cols-3 ">
-            <TimeLineCard img={img1} {...props} />
-        </div>
-    );
+    return <TimeLineCard img={img1} {...props} />;
 }
 
 const TimeLineCard = ({...props}) => {
     return (
         <div
         className={`
-        select-none w-full h-fit px-2 py-3 flex flex-col items-start justify-center space-y-2 rounded shadow border border-orange-500
+        select-none w-full h-fit px-2 py-3 flex flex-col items-start justify-center space-y-2 rounded shadow-lg border border-orange-500
         `}>
             <span className='w-full text-center font-medium text-xl px-2'>Add a New Proof</span>
             <PictureSpan {...props} />
