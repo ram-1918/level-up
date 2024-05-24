@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { months, statusStyle } from './MonthsGrid';
+import { Link, useOutletContext, useParams } from 'react-router-dom';
+import { months, statusStyle } from '../pages/MonthsGrid';
 
 export default function DaysGrid() {
-    const { year, month } = useParams();
+    const [setTrack] = useOutletContext();
+    useEffect(() => {setTrack(`years.months.days`);}, [setTrack]);
+
     let calender = [];
     for(let i = 1; i <= 31; i++) {
         calender.push(i);
     }
     return (
         <>
-            Progress in the year {year} for the month {month}
             <div className={`grid grid-cols-4 laptop:grid-cols-6 gap-2 p-2 dark:bg-red-300 overflow-y-scroll`}>
                 {calender.map((date, id) => <DayCard key={id} date={date} />)}
             </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useOutletContext, useParams } from 'react-router-dom';
 
 export const months = [
     { id: 1, month: "January" },
@@ -17,10 +17,11 @@ export const months = [
 ]
 
 export default function MonthsGrid() {
-    const { year } = useParams();
+    const [setTrack] = useOutletContext();
+    useEffect(() => {setTrack(`years.months`);}, [setTrack]);
+
     return (
         <div className={`grid grid-cols-1 gap-2 p-2 dark:bg-red-300 overflow-y-scroll`}>
-            Progress in the year {year}
             {months.map(({id, month}) => <MonthCard key={id} idx={id} month={month} activedays={20} />)}
         </div>
     );

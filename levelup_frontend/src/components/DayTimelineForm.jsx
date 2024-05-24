@@ -1,42 +1,84 @@
-import img1 from '../assets/images/part1.png';
 import { useState } from "react";
 import { BaseHoveringCancel } from "./base/Base";
+import axios from 'axios';
+import { APIURL } from '../App';
 
-export default function DayTimelineForm({...props}) {
-    return <TimeLineCard img={img1} {...props} />;
+const initialValue = {
+    title: '',
+    image: null,
+    notes: ''
 }
 
-const TimeLineCard = ({...props}) => {
+// http://127.0.0.1:8000/api/send-proof
+
+export default function DayTimelineForm({setTimelineData}) {
+    const [newdata, setNewData] = useState(initialValue);
+    const [msg, setMsg] = useState('');
+
+    const formdata = new FormData();
+
+    const handleCreatePost = e => {
+        e.preventDefault();
+        formdata.append('title', newdata.title);
+        formdata.append('image', newdata.image);
+        formdata.append('notes', newdata.notes);
+
+        const URL = `${APIURL}/send-proof`
+        axios.post(URL, formdata, {
+            headers: {
+                "Content-Type": 'multipart/form-data'
+            }
+        })
+        .then(resp => {
+            console.log('While Upload', resp.data);
+            if(resp.data === 'Enough for the day') {
+                setMsg(resp.data);
+            } else {
+                setTimelineData(prev => [...prev, {...resp.data, 'image': resp.data.image}]);
+                setNewData(initialValue);
+            }
+        })
+        .catch(err => console.log(err))
+    }
+
+    const props = {
+        newdata: newdata,
+        setNewData: setNewData
+    }
     return (
         <div
         className={`
         select-none w-full h-fit px-2 py-3 flex flex-col items-start justify-center space-y-2 rounded shadow-lg border border-orange-500
         `}>
             <span className='w-full text-center font-medium text-xl px-2'>Add a New Proof</span>
+            {msg && msg}
             <PictureSpan {...props} />
             <div className=" w-full flex flex-col items-start justify-center space-y-2">
                 <TitleSpan {...props} />
                 <NoteSpan {...props} />
             </div>
             <div className="w-full text-right">
-                <button className="rounded px-4 py-1 bg-gray-200 text-lg font-medium shadow-md hover:opacity-70">Post</button>
+                <button
+                onClick={e => handleCreatePost(e)}
+                className="rounded px-4 py-1 bg-gray-200 text-lg font-medium shadow-md hover:opacity-70">
+                    Post
+                </button>
             </div>
         </div>
     );
 };
 
-const PictureSpan = ({...props}) => {
-    const [image, setImage] = useState(null);
+const PictureSpan = ({newdata:{image}, setNewData}) => {
     const [preview, setPreview] = useState(null);
 
     const handleImageUpload = e => {
         e.preventDefault()
-        setImage(e.target.files[0]);
+        setNewData(prev => ({...prev, 'image':e.target.files[0]}));
         setPreview(URL.createObjectURL(e.target.files[0]));    // Produces preview
     }
     const cancelImageUpload = e => {
         e.preventDefault();
-        setImage(null);
+        setNewData(prev => ({...prev, 'image': null}));
         setPreview(null);
     }
     return (
@@ -58,23 +100,26 @@ const PictureSpan = ({...props}) => {
     );
 };
 
-const TitleSpan = ({title='Default Title', date="May 20, 2024 at 7:36 PM"}) => {
-    const [newtitle, setNewTitle] = useState('');
+const TitleSpan = ({newdata:{title}, setNewData}) => {
     return (
         <div className="w-full flex flex-col items-start justify-start">
             <input 
             type="text" 
+            value={title}
             placeholder="Enter a catchy title..."
             className="outline-none border border-gray-300 rounded w-full p-1 text-xl font-medium"
-            onChange={e => setNewTitle(e.target.value)} />
+            onChange={e => setNewData(prev => ({...prev, 'title': e.target.value}))} />
         </div>
     );
 };
 
-const NoteSpan = () => {
+const NoteSpan = ({newdata:{notes}, setNewData}) => {
     return (
         <span className="w-full text-md font-light leading-6 tracking-wide before:content-['Notes:'] before:font-medium">
-            <textarea className="border border-gray-300 outline-none rounded w-full p-1" placeholder="Add a short note..." />
+            <textarea 
+            value={notes}
+            onChange={e => setNewData(prev => ({...prev, "notes": e.target.value}))}
+            className="border border-gray-300 outline-none rounded w-full p-1" placeholder="Add a short note..." />
         </span>
     );
 };

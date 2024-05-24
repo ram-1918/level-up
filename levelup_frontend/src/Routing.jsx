@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Home";
-import YearsGrid from "./components/YearsGrid";
-import MonthsGrid from "./components/MonthsGrid";
-import DaysGrid from "./components/DaysGrid";
-import DayTimeline from "./components/DayTimeline";
+import YearsGrid from "./pages/YearsGrid";
+import MonthsGrid from "./pages/MonthsGrid";
+import DaysGrid from "./pages/DaysGrid";
+import DayTimeline from "./pages/DayTimeline";
 
 export default function Routing() {
     return (

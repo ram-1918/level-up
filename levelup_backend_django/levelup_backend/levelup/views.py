@@ -23,6 +23,7 @@ class CreatePostAPI(generics.CreateAPIView):
                 return Response('Error occured while updating streak')
             streak_obj.count += 1
             streak_obj.save()
+            return Response(ser.data)
         if objects.count() == 4:
             return Response('Enough for the day')
         return super().post(request, *args, **kwargs)
@@ -48,9 +49,10 @@ def create_streak_api(request):
     today = datetime.today()
     streak_objs_today = Streak.objects.filter(year=today.year, month=today.month, day=today.day)
     streak_objs_yesterday = Streak.objects.filter(year=today.year, month=today.month, day=today.day - 1)
-    
     today_count = streak_objs_today.count()
     yesterday_count = streak_objs_yesterday.count()
+    
+    print(today_count, yesterday_count)
 
     if today_count == 1:
         return Response('Streak Already Updated')
@@ -62,4 +64,17 @@ def create_streak_api(request):
             # create new record with 0 count: Restarting streak
             newobj = Streak(count=0)
         newobj.save()
-    return Response('Streak Updated')
+    return Response('Streak Newly Updated')
+
+@api_view(['GET'])
+def get_streak(request):
+    today = datetime.today()
+    year, month, day = today.year, today.month, today.day
+    streak = Streak.objects.filter(year=year, month=month, day=day).first()
+    if not streak:
+        return Response('No streak found')
+    result = {
+        'streak': streak.count
+        }
+    return Response(result)
+    
