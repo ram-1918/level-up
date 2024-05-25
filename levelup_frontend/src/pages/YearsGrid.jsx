@@ -4,6 +4,7 @@ import { Link, useOutletContext } from 'react-router-dom';
 export default function YearsGrid() {
     const {setTrack} = useOutletContext();
     useEffect(() => {setTrack(`years`);}, [setTrack]);
+    
     return (
         <div className={`grid grid-cols-3 tablet:grid-cols-4 laptop:grid-cols-5 gap-4 p-2 dark:bg-red-300`}>
             <YearCard year="2024" />

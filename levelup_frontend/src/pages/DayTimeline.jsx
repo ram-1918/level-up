@@ -13,9 +13,10 @@ import { BaseDoneForTheDay } from "../components/base/Base";
 
 export default function DayTimeline() {
     const { year, month, day } = useParams();
-    const {setTrack} = useOutletContext();
-
+    const {setTrack, setCurrentPath} = useOutletContext();
     useEffect(() => {setTrack(`years.months.days.timeline`);}, [setTrack]);
+  useEffect(() => {setCurrentPath(`${year} / ${month} / ${day}`);}, [setCurrentPath]);
+
 
     const today = new Date();
     const [submitStatus, setSubmitStatus] = useState(false);
@@ -45,7 +46,7 @@ export default function DayTimeline() {
 
     // Other days with no proofs submitted
     if (!isToday() && timelinedata.length === 0) {
-        return <div>No proofs submitted </div>
+        return <div className="w-full h-full bg-gray-100 text-gray-400 font-semibold p-2 my-4">No proofs found</div>
     }
 
     return (

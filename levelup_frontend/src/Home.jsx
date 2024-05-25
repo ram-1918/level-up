@@ -8,24 +8,36 @@ import { APIURL } from "./App";
 function Home() {
   const screenStyles = "mobile:bg-white tablet:bg-blue-300 laptop:bg-green-400";
   const [track, setTrack] = useState("");
+  const [currentPath, setCurrentPath] = useState("");
   const [postsCount, setPostsCount] = useState([]);
 
   useEffect(() => {
     axios.get(`${APIURL}/posts/count`)
-    .then(resp => {setPostsCount(resp.data);console.log(resp.data)})
+    .then(resp => {setPostsCount(resp.data); console.log(resp.data)})
     .catch(err => console.log(err))
-}, [])
+}, []);
+
+const props = {
+  setTrack:setTrack, 
+  setCurrentPath:setCurrentPath, 
+  postsCount:postsCount
+}
   return (
     <div className={`${screenStyles}`}>
       <Navbar />
       <PathTrace track={track} setTrack={setTrack} />
+      <CurrentPathTrace path={currentPath} />
       {/* {JSON.stringify(postsCount)} */}
-      {postsCount.length !== 0 && <Outlet context={{setTrack:setTrack, postsCount:postsCount}} />}
+      {postsCount.length !== 0 && <Outlet context={props} />}
     </div>
   );
 }
 
 export default Home;
+
+const CurrentPathTrace = ({path}) => {
+  return <span className="leading-6 tracking-wide capitalize px-2 py-1 font-medium text-md">{path}</span>
+}
 
 
 

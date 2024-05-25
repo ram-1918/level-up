@@ -2,23 +2,25 @@ import { useEffect, useState } from 'react';
 import { Link, useOutletContext, useParams } from 'react-router-dom';
 
 export const months = [
-    { id: 1, month: "January" },
-    { id: 2, month: "February" },
-    { id: 3, month: "March" },
-    { id: 4, month: "April" },
-    { id: 5, month: "May" },
-    { id: 6, month: "June" },
-    { id: 7, month: "July" },
-    { id: 8, month: "August" },
-    { id: 9, month: "September" },
-    { id: 10, month: "October" },
-    { id: 11, month: "November" },
-    { id: 12, month: "December" },
+    { id: 1, month: "January", days:31 },
+    { id: 2, month: "February", days:29 },
+    { id: 3, month: "March", days:31 },
+    { id: 4, month: "April", days:30 },
+    { id: 5, month: "May", days:31 },
+    { id: 6, month: "June", days:30 },
+    { id: 7, month: "July", days:31 },
+    { id: 8, month: "August", days:31 },
+    { id: 9, month: "September", days:30 },
+    { id: 10, month: "October", days:31 },
+    { id: 11, month: "November", days:30 },
+    { id: 12, month: "December", days:31 },
 ]
 
 export default function MonthsGrid() {
-    const {setTrack} = useOutletContext();
+    const {year} = useParams();
+    const {setTrack, setCurrentPath} = useOutletContext();
     useEffect(() => {setTrack(`years.months`);}, [setTrack]);
+    useEffect(() => {setCurrentPath(`${year}`);}, [setCurrentPath]);
 
     return (
         <div className={`grid grid-cols-1 gap-2 p-2 dark:bg-red-300 overflow-y-scroll`}>

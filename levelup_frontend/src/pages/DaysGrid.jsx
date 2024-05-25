@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link, useOutletContext, useParams } from "react-router-dom";
 import { months, statusStyle } from "../pages/MonthsGrid";
-import { FishIcon, SplotchIcon } from "../components/base/BaseIcons";
 
 export default function DaysGrid() {
-  const { setTrack } = useOutletContext();
+    const { year, month } = useParams();
+  const { setTrack, setCurrentPath } = useOutletContext();
   useEffect(() => {
     setTrack(`years.months.days`);
   }, [setTrack]);
+  useEffect(() => {setCurrentPath(`${year} / ${month}`);}, [setCurrentPath]);
+
+  const current_month_idx = months.findIndex(item => item.month === month);
 
   let calender = [];
-  for (let i = 1; i <= 31; i++) {
+  for (let i = 1; i <= months[current_month_idx].days; i++) {
     calender.push(i);
   }
   return (

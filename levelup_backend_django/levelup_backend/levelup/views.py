@@ -65,13 +65,18 @@ def create_streak_api(request):
     if today_count == 1:
         return Response('Streak Already Updated')
     elif today_count == 0:
+        print('streak_objs_yesterday, today count 0')
         if yesterday_count == 1:
             # Create new record with yesterday's count
-            newobj = Streak(count=streak_objs_yesterday.first().count)
+            print('streak_objs_yesterday, yest counr 1')
+            new_value = streak_objs_yesterday.first().count
         else:
             # create new record with 0 count: Restarting streak
-            newobj = Streak(count=0)
+            print('streak_objs_yesterday, yest counr 0')
+            new_value = 0
+        newobj = Streak(count=new_value)
         newobj.save()
+        
     return Response('Streak Newly Updated')
 
 @api_view(['GET'])
