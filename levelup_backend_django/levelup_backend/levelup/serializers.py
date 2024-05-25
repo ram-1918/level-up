@@ -14,4 +14,8 @@ class PostSerializer(serializers.ModelSerializer):
         readable = epoch_to_readable(timestamp)
         return readable
     
-
+class AllPostsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Posts
+        fields = ('post_count_on_the_day', 'year', 'month', 'day')
+        # exclude=('image', 'title', 'notes')

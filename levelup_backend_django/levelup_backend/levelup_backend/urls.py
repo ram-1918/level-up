@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from levelup.views import CreatePostAPI, list_post_api, create_streak_api, get_streak
+from levelup.views import CreatePostAPI, list_post_api, get_counts_for_each_day, create_streak_api, get_streak
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/send-proof', CreatePostAPI.as_view()),
     path('api/proof/list', list_post_api),
+    path('api/posts/count', get_counts_for_each_day),
     path('api/streak', create_streak_api),
     path('api/get-streak', get_streak),
 ]

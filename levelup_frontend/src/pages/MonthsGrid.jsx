@@ -17,7 +17,7 @@ export const months = [
 ]
 
 export default function MonthsGrid() {
-    const [setTrack] = useOutletContext();
+    const {setTrack} = useOutletContext();
     useEffect(() => {setTrack(`years.months`);}, [setTrack]);
 
     return (
@@ -30,7 +30,7 @@ export default function MonthsGrid() {
 export const statusStyle = {
     lock: 'opacity-40 pointer-events-none',
     read_only: 'opacity-90',
-    active: 'bg-green-400'
+    active: 'bg-green-200'
 }
 
 const MonthCard = ({month="January", activedays=20}) => {

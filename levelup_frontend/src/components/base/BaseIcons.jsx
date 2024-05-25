@@ -1,8 +1,9 @@
-import { faAdjust, faSplotch } from "@fortawesome/free-solid-svg-icons";
+import { faAdjust, faFish, faSplotch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 
 export const SplotchIcon = ({...props}) => <FontAwesomeIcon {...props} icon={faSplotch} />;
+export const FishIcon = ({...props}) => <FontAwesomeIcon {...props} icon={faFish} />;
 
 export const ThemeIcon = () => {
     // if dark, left-black; right-white; border-r-0

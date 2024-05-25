@@ -13,7 +13,7 @@ import { BaseDoneForTheDay } from "../components/base/Base";
 
 export default function DayTimeline() {
     const { year, month, day } = useParams();
-    const [setTrack] = useOutletContext();
+    const {setTrack} = useOutletContext();
 
     useEffect(() => {setTrack(`years.months.days.timeline`);}, [setTrack]);
 

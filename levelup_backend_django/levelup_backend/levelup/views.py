@@ -1,9 +1,10 @@
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.db.models import Count
 
 from .models import Posts, Streak
-from .serializers import PostSerializer
+from .serializers import PostSerializer, AllPostsSerializer
 
 from datetime import datetime
 
@@ -44,11 +45,18 @@ def list_post_api(request):
     }
     return Response(result, status=status.HTTP_200_OK)
 
+@api_view(["GET"])
+def get_counts_for_each_day(request):
+    recs = Posts.objects.all().values('year', 'month', 'day').annotate(post_count_on_the_day=Count('title'))
+    return Response(list(recs))
+
 @api_view(['GET'])
 def create_streak_api(request):
     today = datetime.today()
     streak_objs_today = Streak.objects.filter(year=today.year, month=today.month, day=today.day)
+    print('streak_objs_today')
     streak_objs_yesterday = Streak.objects.filter(year=today.year, month=today.month, day=today.day - 1)
+    print('streak_objs_yesterday')
     today_count = streak_objs_today.count()
     yesterday_count = streak_objs_yesterday.count()
     
