@@ -12,7 +12,6 @@ function App() {
   useEffect(() => {
     if(!hasMadeAPICall.current) {
       axios.get(`${APIURL}/streak`)
-      .then(resp => {console.log(resp.data)})
       .catch(error => console.log(error))
       hasMadeAPICall.current = true;
     }

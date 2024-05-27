@@ -6,12 +6,13 @@ import { faFireAlt } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { APIURL } from "../App";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
     const [streak, setStreak] = useState(0);
     useEffect(() => {
         axios.get(`${APIURL}/get-streak`)
-        .then(resp => {setStreak(resp.data.streak); console.log(resp.data)})
+        .then(resp => {setStreak(resp.data.streak)})
     }, []);
     return (
         <header className={`${flex_row_style} sticky top-0 z-20 justify-between px-2 py-1 bg-orange-200 dark:bg-blue-400`}>
@@ -25,9 +26,9 @@ export default function Navbar() {
     );
 }
 
-const LevelupTitle = () => {
+export const LevelupTitle = () => {
     return (
-        <span className="text-4xl font-medium font-[cursive] underline underline-offset-2">LevelUp</span>
+        <Link to='/home/' className="text-4xl font-medium font-[cursive] underline underline-offset-2">LevelUp</Link>
     );
 };
 

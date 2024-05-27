@@ -12,7 +12,7 @@ import { SplotchIcon } from "./BaseIcons";
 
 export const HomeButton = () => {
   return (
-    <Link to="/" className="leading-6 tracking-wide text-md font-light">
+    <Link to="/home/" className="leading-6 tracking-wide text-md font-light">
       <FontAwesomeIcon icon={faHomeLg} />
     </Link>
   );

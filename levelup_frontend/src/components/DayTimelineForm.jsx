@@ -4,6 +4,8 @@ import axios from 'axios';
 import { APIURL } from '../App';
 import EXIF from 'exif-js';
 import * as exifr from 'exifr';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCamera, faCameraAlt, faMultiply } from "@fortawesome/free-solid-svg-icons";
 
 const initialValue = {
     title: '',
@@ -16,6 +18,7 @@ const initialValue = {
 export default function DayTimelineForm({setTimelineData}) {
     const [newdata, setNewData] = useState(initialValue);
     const [msg, setMsg] = useState('');
+    const [isStartCamera, setIsStartCamera] = useState(false);
 
     const formdata = new FormData();
 
@@ -35,9 +38,11 @@ export default function DayTimelineForm({setTimelineData}) {
             console.log('While Upload', resp.data);
             if(resp.data === 'Enough for the day') {
                 setMsg(resp.data);
+                setIsStartCamera(!isStartCamera);
             } else {
                 setTimelineData(prev => [...prev, {...resp.data, 'image': resp.data.image}]);
                 setNewData(initialValue);
+                setIsStartCamera(!isStartCamera);
             }
         })
         .catch(err => console.log(err))
@@ -45,12 +50,15 @@ export default function DayTimelineForm({setTimelineData}) {
 
     const props = {
         newdata: newdata,
-        setNewData: setNewData
+        setNewData: setNewData,
+        isStartCamera: isStartCamera , 
+        setIsStartCamera: setIsStartCamera
     }
     return (
         <div
         className={`
-        select-none w-full h-fit px-2 py-3 flex flex-col items-start justify-center space-y-2 rounded shadow-lg border border-orange-500
+        select-none w-full h-full px-2 py-3 flex flex-col items-start justify-center space-y-2 
+        rounded shadow-lg border border-orange-500 laptop:px-[20%]
         `}>
             <span className='w-full text-center font-medium text-xl px-2'>Add a New Proof</span>
             {msg && msg}
@@ -70,45 +78,45 @@ export default function DayTimelineForm({setTimelineData}) {
     );
 };
 
-const PictureSpan = ({newdata:{image}, setNewData}) => {
+const PictureSpan = ({newdata:{image}, setNewData,  isStartCamera, setIsStartCamera}) => {
     const [preview, setPreview] = useState(null);
     const [uploadType, setUploadType] = useState('');
     const [exifData, setExifData] = useState('');
 
-    const handleImageUpload = event => {
-        event.preventDefault()
-        const file = event.target.files[0];
-        // if (file) {
-        //     const reader = new FileReader();
-        //     reader.onload = async (e) => {
-        //     //   const imgSrc = e.target.result;
-        //       try {
-        //         const exif = await exifr.parse(file);
-        //         setExifData(exif);
-        //         analyzeExifData(exif);
-        //       } catch (error) {
-        //         console.error("Error reading EXIF data:", error);
-        //       }
-        //     };
-        //     reader.readAsDataURL(file);
-        //   }
-        setNewData(prev => ({...prev, 'image':file}));
-        setPreview(URL.createObjectURL(file));    // Produces preview
-    };
-    const analyzeExifData = (data) => {
-        if (data.Make && data.Model) {
-          console.log(`Camera Make: ${data.Make}, Model: ${data.Model}`);
-          setUploadType('camera');
-        } else {
-          console.log("No camera information found. Image may not have been taken with a camera.");
-          setUploadType('Uploaded from gallery');
-        }
-        if (data.Software) {
-          console.log(`Edited with: ${data.Software}`);
-        } else {
-          console.log("No editing software information found.");
-        }
-      };
+    // const handleImageUpload = event => {
+    //     event.preventDefault()
+    //     const file = event.target.files[0];
+    //     // if (file) {
+    //     //     const reader = new FileReader();
+    //     //     reader.onload = async (e) => {
+    //     //     //   const imgSrc = e.target.result;
+    //     //       try {
+    //     //         const exif = await exifr.parse(file);
+    //     //         setExifData(exif);
+    //     //         analyzeExifData(exif);
+    //     //       } catch (error) {
+    //     //         console.error("Error reading EXIF data:", error);
+    //     //       }
+    //     //     };
+    //     //     reader.readAsDataURL(file);
+    //     //   }
+    //     setNewData(prev => ({...prev, 'image':file}));
+    //     setPreview(URL.createObjectURL(file));    // Produces preview
+    // };
+    // const analyzeExifData = (data) => {
+    //     if (data.Make && data.Model) {
+    //       console.log(`Camera Make: ${data.Make}, Model: ${data.Model}`);
+    //       setUploadType('camera');
+    //     } else {
+    //       console.log("No camera information found. Image may not have been taken with a camera.");
+    //       setUploadType('Uploaded from gallery');
+    //     }
+    //     if (data.Software) {
+    //       console.log(`Edited with: ${data.Software}`);
+    //     } else {
+    //       console.log("No editing software information found.");
+    //     }
+    //   };
 
     const cancelImageUpload = e => {
         e.preventDefault();
@@ -118,21 +126,22 @@ const PictureSpan = ({newdata:{image}, setNewData}) => {
     }
     return (
         <>
-            {uploadType}
-            <pre>{JSON.stringify(exifData)}</pre>
-            {false && <CameraCapture  setNewData={setNewData} setPreview={setPreview} preview={preview} />}
-        <div style={{minWidth: "200px", minHeight: "200px"}} className="relative border border-gray-300 flex items-center justify-center w-full min-h-96">
+            {/* {uploadType} */}
+            {/* <pre>{JSON.stringify(exifData)}</pre> */}
+            {/* {false && <CameraCapture  setNewData={setNewData} setPreview={setPreview} preview={preview} />} */}
+        <div style={{minWidth: "200px", minHeight: "200px"}} className="relative border border-gray-300 flex items-center justify-center w-full h-full">
             {image !== null ? 
             <img alt="Proof" src={preview}  className="object-scale-down h-full drop-shadow-md rounded m-auto" /> :
-            <input 
-                type="file"
-                accept="image/*"
-                className={`
-                w-full flex flex-col justify-center items-center 
-                file:rounded-full file:border-none file:px-2 file:bg-gray-200 file:text-gray-500
-                `}
-                onChange={e => handleImageUpload(e)} 
-            />
+            <CameraCapture  setNewData={setNewData} setPreview={setPreview} preview={preview}  isStartCamera={isStartCamera} setIsStartCamera={setIsStartCamera} />
+            // <input 
+            //     type="file"
+            //     accept="image/*"
+            //     className={`
+            //     w-full flex flex-col justify-center items-center 
+            //     file:rounded-full file:border-none file:px-2 file:bg-gray-200 file:text-gray-500
+            //     `}
+            //     onChange={e => handleImageUpload(e)} 
+            // />
             }
             {image !== null && <BaseHoveringCancel onClick={e => cancelImageUpload(e)} />}
         </div>
@@ -165,7 +174,7 @@ const NoteSpan = ({newdata:{notes}, setNewData}) => {
 };
 
 
-const CameraCapture = ({setNewData, setPreview, preview}) => {
+const CameraCapture = ({setNewData, setPreview, preview, isStartCamera, setIsStartCamera}) => {
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
     const [capturedImage, setCapturedImage] = useState(null);
@@ -173,14 +182,17 @@ const CameraCapture = ({setNewData, setPreview, preview}) => {
   
     useEffect(() => {
       const startVideo = async () => {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-            await videoRef.current.play();
+        if (isStartCamera) {
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: isStartCamera });
+            console.log(preview);
+            if (videoRef.current) {
+              videoRef.current.srcObject = stream;
+              await videoRef.current.play();
+            }
+          } catch (err) {
+            console.error("Error accessing camera: ", err);
           }
-        } catch (err) {
-          console.error("Error accessing camera: ", err);
         }
       };
   
@@ -193,7 +205,7 @@ const CameraCapture = ({setNewData, setPreview, preview}) => {
           tracks.forEach(track => track.stop());
         }
       };
-    }, []);
+    }, [isStartCamera]);
   
     const captureImage = () => {
       if (videoRef.current && canvasRef.current) {
@@ -228,10 +240,24 @@ const CameraCapture = ({setNewData, setPreview, preview}) => {
       const blob = dataURLtoBlob(dataURL);
       return new File([blob], filename, { type: blob.type });
     };
+
     return (
-        <div className="camera-capture">
-          <video ref={videoRef} style={{ width: '100%' }} autoPlay playsInline />
-          <button onClick={captureImage}>Capture Image</button>
+      <div className="w-full h-full bg-gray-100 flex flex-col justify-center items-start">
+      {
+        isStartCamera ? 
+          <div className="flex flex-col items-center">
+            <video ref={videoRef} style={{ width: '100%' }} autoPlay playsInline />
+            <span className="flex flex-col justify-center items-center space-y-2 p-1">
+              <FontAwesomeIcon onClick={() => captureImage()} icon={faCameraAlt} className="p-5 rounded-full bg-gray-300 text-3xl font-light" />
+              <span onClick={() => setIsStartCamera(!isStartCamera)} className="font-extralight"><FontAwesomeIcon icon={faMultiply} /> Close Camera</span>
+            </span>
+          </div>
+          :
+          <div onClick={() => setIsStartCamera(!isStartCamera)} className="w-full h-full flex flex-col justify-center items-center bg-gray-100">
+            <span><FontAwesomeIcon icon={faCameraAlt} className="p-5 rounded-full bg-gray-300 text-3xl font-light" /></span>
+            <span onClick={() => setIsStartCamera(!isStartCamera)} className="font-extralight">Open Camera</span>
+          </div>
+          }
           <canvas ref={canvasRef} style={{ display: 'none' }} />
           {/* {capturedImage && (
             <div>

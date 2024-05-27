@@ -19,7 +19,7 @@ export default function DaysGrid() {
   return (
     <>
       <div
-        className={`grid grid-cols-4 laptop:grid-cols-6 gap-2 p-2 dark:bg-red-300 overflow-y-scroll`}
+        className={`grid grid-cols-3 tablet:grid-cols-5 laptop:grid-cols-8 gap-4 p-2 overflow-y-scroll`}
       >
         {calender.map((date, id) => (
           <DayCard key={id} date={date} />
@@ -92,7 +92,7 @@ const DayCard = ({ date = 1 }) => {
 
   return (
     <Link
-      to={`/${year}/${month}/${date}`}
+      to={`./${date}`}
       className={`
         relative select-none h-24 px-2  flex flex-col items-center justify-center rounded shadow border border-orange-200
         hover:scale-105 hover:transition-all hover:ease-in-out hover:bg-orange-50 z-10 overflow-hidden
@@ -101,7 +101,7 @@ const DayCard = ({ date = 1 }) => {
     >
       {status !== "lock" && splotch_or_fish()}
       {status !== "lock" && (
-        <span className="absolute bottom-0 left-0 text-[0.7rem] rounded bg-gray-0 bg-red-0 -z-10 text-md font-extralight">
+        <span className="absolute bottom-0 text-center text-[0.7rem] rounded bg-gray-0 bg-red-0 -z-10 text-md font-extralight">
           Total proofs {"  "}
           <span className="text-lg font-light">{posts_count_per_day}</span>
         </span>

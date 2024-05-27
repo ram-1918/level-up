@@ -50,7 +50,7 @@ export default function DayTimeline() {
     }
 
     return (
-        <div className="p-2 grid grid-cols-1 gap-4 justify-items-center tablet:grid-cols-3 ">
+        <div className="p-2 grid grid-cols-1 gap-4 justify-items-center tablet:grid-cols-1 laptop:px-[20%] ">
             {timelinedata.length !== 0 && timelinedata.map(item => <TimeLineCard key={item.id} {...item} />)}
             {isToday() && timelinedata.length < 4 && `${4 - timelinedata.length} more ${4 - timelinedata.length === 1 ? 'proof': 'proofs'} needed`}
             {isToday() && timelinedata.length < 4 && <DayTimelineForm setTimelineData={setTimelineData} {...props} />}
@@ -63,11 +63,13 @@ const TimeLineCard = ({...props}) => {
     return (
         <div
         className={`
-        select-none w-fit h-fit px-2 py-2 flex flex-col items-start justify-center space-y-2 rounded shadow border border-orange-200
+        select-none w-full h-fit px-2 py-2 flex flex-col items-start justify-center space-y-2 rounded shadow border border-orange-200
         pointer-events-none
         `}>
-            <PictureSpan {...props} />
-            <div className="flex flex-col items-start justify-center space-y-2">
+            <div className="h-[80%] w-full">
+                <PictureSpan {...props} />
+            </div>
+            <div className="h-[20%] w-full flex flex-col items-start justify-center space-y-2">
                 <TitleSpan {...props} />
                 <NoteSpan {...props} />
             </div>
@@ -79,8 +81,8 @@ const PictureSpan = ({image}) => {
     const croppedURL = String(image).split(server);
     const finalRes = croppedURL[croppedURL.length - 1];
     return (
-        <div style={{minWidth: "200px", minHeight: "200px"}} className="flex items-center justify-center w-full min-h-80">
-            <img alt="Oops Invalid" src={`${server}${finalRes}`}  className="object-scale-down h-full drop-shadow-md rounded m-auto" />
+        <div style={{minWidth: "200px", minHeight: "200px"}} className="relative h-96 min-h-fit w-full">
+            <img alt="Oops Invalid" src={`${server}${finalRes}`}  className="object-cover absolute inset-0 h-full w-full rounded-lg shadow-sm" />
         </div>
     );
 };
@@ -100,7 +102,6 @@ const NoteSpan = ({notes}) => {
     // When you clone a repository with git clone, it automatically creates a remote 
     // connection called origin pointing back to the cloned repository. 
     // The command remote is used to manage a set of tracked repositories.
-    // `
     return (
         <span className="text-md font-light leading-6 tracking-wide before:content-['Notes:'] before:font-medium">
             {notes}

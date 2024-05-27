@@ -23,7 +23,7 @@ export default function MonthsGrid() {
     useEffect(() => {setCurrentPath(`${year}`);}, [setCurrentPath]);
 
     return (
-        <div className={`grid grid-cols-1 gap-2 p-2 dark:bg-red-300 overflow-y-scroll`}>
+        <div className={`grid grid-cols-1 gap-2 p-2 overflow-y-scroll`}>
             {months.map(({id, month}) => <MonthCard key={id} idx={id} month={month} activedays={20} />)}
         </div>
     );
@@ -61,7 +61,7 @@ const MonthCard = ({month="January", activedays=20}) => {
 
     return (
         <Link
-        to={`/${year}/${month}`}
+        to={`./${month}`}
         className={`
         select-none h-fit px-2 py-2 flex flex-col items-start justify-center rounded shadow border border-orange-200
         hover:scale-105 hover:transition-all hover:ease-in-out hover:bg-orange-50
