@@ -64,7 +64,7 @@ const MonthCard = ({month="January", activedays=20}) => {
         to={`./${month}`}
         className={`
         select-none h-fit px-2 py-2 flex flex-col items-start justify-center rounded shadow border border-orange-200
-        hover:scale-105 hover:transition-all hover:ease-in-out hover:bg-orange-50
+        hover:scale-100 hover:transition-all hover:ease-in-out hover:bg-orange-50
         ${statusStyle[status]}
         `}>
             <span className="text-lg font-medium">{month}</span> {todays_year}

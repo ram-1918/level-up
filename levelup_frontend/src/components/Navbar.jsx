@@ -15,7 +15,7 @@ export default function Navbar() {
         .then(resp => {setStreak(resp.data.streak)})
     }, []);
     return (
-        <header className={`${flex_row_style} sticky top-0 z-20 justify-between px-2 py-1 bg-orange-200 dark:bg-blue-400`}>
+        <header className={`${flex_row_style} sticky top-0 z-20 justify-between px-4 py-1 bg-orange-200 dark:bg-blue-400`}>
             <LevelupTitle />
             <div className="flex flex-row justify-between items-center space-x-2">
                 <ThemeIcon />

@@ -7,10 +7,10 @@ export default function PathTrace({ track }) {
   const navigate = useNavigate();
 
   const pathmap = {
-    years: `/`,
-    months: `/${year}`,
-    days: `/${year}/${month}`,
-    timeline: `/${year}/${month}/${day}`,
+    years: `./`,
+    months: `./${year}`,
+    days: `./${year}/${month}`,
+    timeline: `./${year}/${month}/${day}`,
   };
 
   const pathItemStyle = `
