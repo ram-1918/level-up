@@ -27,7 +27,7 @@ const props = {
       <Navbar />
       <PathTrace track={track} setTrack={setTrack} />
       <CurrentPathTrace path={currentPath} />
-      {postsCount.length !== 0 && <Outlet context={props} />}
+      <Outlet context={props} />
     </div>
   );
 }
