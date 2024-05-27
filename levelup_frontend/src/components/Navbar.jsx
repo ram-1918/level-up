@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { HomeButton, ThemeButton } from "./base/Base";
+import { HomeButton } from "./base/Base";
 import { ThemeIcon } from "./base/BaseIcons";
 import { flex_row_style } from "./base/BaseStyles";
 import { faFireAlt } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { APIURL } from "../App";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Navbar() {
     const [streak, setStreak] = useState(0);

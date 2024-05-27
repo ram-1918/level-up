@@ -2,10 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { BaseHoveringCancel } from "./base/Base";
 import axios from 'axios';
 import { APIURL } from '../App';
-import EXIF from 'exif-js';
-import * as exifr from 'exifr';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera, faCameraAlt, faMultiply } from "@fortawesome/free-solid-svg-icons";
+import { faCameraAlt, faMultiply } from "@fortawesome/free-solid-svg-icons";
 
 const initialValue = {
     title: '',
